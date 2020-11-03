@@ -17,6 +17,7 @@ namespace ProjectBoard.Controllers
     //comment
     public class HomeController : Controller
     {
+
         static ApplicationDbContext db = new ApplicationDbContext();
 
         UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
