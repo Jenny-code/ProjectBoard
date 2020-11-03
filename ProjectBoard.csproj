@@ -269,6 +269,7 @@
     <Content Include="Views\ATask\Delete.cshtml" />
     <Content Include="Views\ATask\Edit.cshtml" />
     <Content Include="Views\ATask\Index.cshtml" />
+    <Content Include="Views\Home\DeleteRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
