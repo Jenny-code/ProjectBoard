@@ -17,7 +17,6 @@
     <h3>Project: @item.Project.Name</h3>
     <h3>Task Title: @item.Name</h3>
     <p>Start: @item.StartDate.ToShortDateString()  /  End: @item.Deadline.ToShortDateString()</p>
-    <br />
     <div>
         Developer(s) on this Task:
         @foreach (var userName in item.ApplicationUsers)
@@ -38,7 +37,10 @@
         }
     </h4>
     <h4>Process @item.CompletionPerc %</h4>
-    <h4>Priority: <span style="color:blue; font-weight:bold;">@item.Priority</span></h4>
+    <h4>Priority: <span style="font-weight:bold;">@item.Priority</span></h4>
+    <h5>
+        Description: @item.Body
+    </h5>
     if (item.IsCompleted @*&&
         User.IsInRole("Developer") &&
         item.ApplicationUsers.Select(u => u.UserName).Contains(User.Identity.Name)*@)
@@ -48,10 +50,10 @@
         </button>
         <br />
         <h4>Developer's Notes:</h4>
-        @*foreach (var note in item.Notes)
+        @*foreach (var comment in item.comments)
         {
-            <span style="color:grey; font-style:italic;">note.Body</span>
-            <span>note.ApplicationUser.Name</span>
+            <span style="color:grey; font-style:italic;">comment.Body</span>
+            <span>comment.ApplicationUser.Name</span>
         }*@
         <br />
     }

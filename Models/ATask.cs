@@ -28,6 +28,7 @@ namespace ProjectBoard.Models
         public string Name { get; set; }
         public int ProjectId { get; set; }
         //public string Comment { get; set; }
+        public string Body { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime Deadline { get; set; }
         public bool IsCompleted { get; set; }
@@ -37,7 +38,7 @@ namespace ProjectBoard.Models
         public virtual Project Project { get; set; }
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         
-        //public virtual ICollection<Note> Notes { get; set; }
+        //public virtual ICollection<Comment> Comments { get; set; }
         //public virtual ICollection<Notification> Notifications { get; set; }
 
         //public string GetComment(bool IsCompleted)

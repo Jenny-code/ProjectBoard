@@ -17,9 +17,7 @@ namespace ProjectBoard.Models
             Project = db.Projects.First(p => p.Id == projId);
 
             var listProjectTasks = 
-                from x in Tasks where x.ProjectId == projId 
-                // && x.IsCompleted == false 
-                select x;
+                from x in Tasks where x.ProjectId == projId select x;
 
             Tasks = listProjectTasks.ToList();
         }

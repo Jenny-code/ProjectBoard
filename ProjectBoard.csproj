@@ -187,6 +187,10 @@
     <Compile Include="Migrations\202011021838300_UpdatedTaskProjectIdentityModels.Designer.cs">
       <DependentUpon>202011021838300_UpdatedTaskProjectIdentityModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011031519195_ImproveATask.cs" />
+    <Compile Include="Migrations\202011031519195_ImproveATask.Designer.cs">
+      <DependentUpon>202011031519195_ImproveATask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ATask.cs" />
@@ -291,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011021838300_UpdatedTaskProjectIdentityModels.resx">
       <DependentUpon>202011021838300_UpdatedTaskProjectIdentityModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011031519195_ImproveATask.resx">
+      <DependentUpon>202011031519195_ImproveATask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
