@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "ShowAllUsers";
+}
+
+<h4>UserName</h4>
+@foreach (var item in ViewBag.users)
+{
+    <li>
+        @item
+    </li>    
+}
+
+<div>
+    @Html.ActionLink("show all roles", "ShowAllRoles")
+</div>
+<div>
+    @Html.ActionLink("Create role", "CreateRole")
+</div>
