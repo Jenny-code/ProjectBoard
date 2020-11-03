@@ -265,6 +265,10 @@
     <Content Include="Views\Tasks\Edit.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Home\CreateRole.cshtml" />
+    <Content Include="Views\Home\ShowAllRoles.cshtml" />
+    <Content Include="Views\Home\ShowAllUsers.cshtml" />
+    <Content Include="Views\Home\AddUserToRole.cshtml" />
+    <Content Include="Views\Home\DeleteRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
