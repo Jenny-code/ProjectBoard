@@ -27,20 +27,30 @@
     <br />
     <h4>
         Project Completed? -- 
-        @if (item.IsCompleted)
+        @if (item.IsCompleted || item.CompletionPerc == 100)
         {
-            <span>Yes</span>
+            <span>Yes. Please find Developer's Note below if available.</span>
         }
         else
         {
-            <span>No</span>
+            <span>Not yet</span>
         }
     </h4>
-    <h4>Process @item.CompletionPerc %</h4>
+    <h4>
+        Process: 
+        @if (item.IsCompleted)
+        {
+            <span>[ 100 ] %</span>
+        }
+        else
+        {
+            <span>[ @item.CompletionPerc ] %</span>
+        }
+    </h4>
     <h4>Priority: <span style="font-weight:bold;">@item.Priority</span></h4>
-    <h5>
-        Description: @item.Body
-    </h5>
+    <h4>
+        Description: <span style="color:blue;">@item.Body</span>
+    </h4>
     if (item.IsCompleted @*&&
         User.IsInRole("Developer") &&
         item.ApplicationUsers.Select(u => u.UserName).Contains(User.Identity.Name)*@)
@@ -57,19 +67,18 @@
         }*@
         <br />
     }
-    <hr />
-}
-<br />
-<br />
-@foreach (var item in Model)
-{
+    <br />
     <button>
         @Html.ActionLink("Edit Task", "Edit", new { id = item.Id })
     </button>
     <button>
         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
     </button>
+    <hr />
+
 }
+<br />
+
 @*@if (User.IsInRole("ProjectManager"))
     {
         show delete

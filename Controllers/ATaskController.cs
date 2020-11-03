@@ -25,7 +25,7 @@ namespace ProjectBoard.Controllers
         }
 
         // GET: ATask/Details/5
-        public ActionResult Details(int? id)
+        /*public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace ProjectBoard.Controllers
                 return HttpNotFound();
             }
             return View(aTask);
-        }
+        }*/
 
         // GET: ATask/Create
         public ActionResult Create()
@@ -51,7 +51,7 @@ namespace ProjectBoard.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ProjectId,StartDate,Deadline,IsCompleted,CompletionPerc,Priority")] ATask aTask)
+        public ActionResult Create([Bind(Include = "Id,Name,ProjectId,Body,StartDate,Deadline,IsCompleted,CompletionPerc,Priority")] ATask aTask)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace ProjectBoard.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ProjectId,StartDate,Deadline,IsCompleted,CompletionPerc,Priority")] ATask aTask)
+        public ActionResult Edit([Bind(Include = "Id,Name,ProjectId,Body,StartDate,Deadline,IsCompleted,CompletionPerc,Priority")] ATask aTask)
         {
             if (ModelState.IsValid)
             {
