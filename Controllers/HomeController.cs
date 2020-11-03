@@ -13,6 +13,8 @@ using System.Net;
 
 namespace ProjectBoard.Controllers
 {
+
+    //comment
     public class HomeController : Controller
     {
         static ApplicationDbContext db = new ApplicationDbContext();
