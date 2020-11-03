@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Roles</h2>
+@Html.ActionLink("CreateARole", "CreateRole", new { CustomerId = ViewBag.CustomerId })
+
+
+<hr />
+<div>
+    @foreach (var role in Model)
+    {   
+
+        <p>
+            <strong>Role:  </strong>
+
+            <strong>@role.Name  </strong>
+            @Html.ActionLink("remove this role", "DeleteRoles", "Home", new { roleId = role.Id }, new { style = "color:red" })
+            @Html.ActionLink("add a user to this role", "AddUserToRole", "Home", new { roleId = role.Id }, new { style = "color:blue" })
+        </p>
+        if (role.Users != null)
+        {
+            <span>Users:  </span>
+
+            foreach (var u in role.Users)
+            {
+                @*<p> @u.UserId</p>*@
+
+                foreach (var user in @ViewBag.users)
+                {
+                    if (user.Id == @u.UserId)
+                    {
+                        <span>@user.UserName</span>
+                    }
+                }
+            }
+        }
+    }
+</div>
