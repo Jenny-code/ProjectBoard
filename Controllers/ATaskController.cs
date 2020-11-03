@@ -10,18 +10,20 @@ using ProjectBoard.Models;
 
 namespace ProjectBoard.Controllers
 {
-    public class TasksController : Controller
+    public class ATaskController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Tasks
+        // GET: ATask
+        // when authorizing certain developers to view one's own task, do the following...
+        [Authorize(Users = "*", Roles = "")]
         public ActionResult Index()
         {
-            var tasks = db.Tasks.Include(a => a.Project);
+            var tasks = db.Tasks.Include(a => a.Project/*.Name*/);
             return View(tasks.ToList());
         }
 
-        // GET: Tasks/Details/5
+        // GET: ATask/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,14 +38,14 @@ namespace ProjectBoard.Controllers
             return View(aTask);
         }
 
-        // GET: Tasks/Create
+        // GET: ATask/Create
         public ActionResult Create()
         {
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
 
-        // POST: Tasks/Create
+        // POST: ATask/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -61,7 +63,7 @@ namespace ProjectBoard.Controllers
             return View(aTask);
         }
 
-        // GET: Tasks/Edit/5
+        // GET: ATask/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,7 +79,7 @@ namespace ProjectBoard.Controllers
             return View(aTask);
         }
 
-        // POST: Tasks/Edit/5
+        // POST: ATask/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -94,7 +96,7 @@ namespace ProjectBoard.Controllers
             return View(aTask);
         }
 
-        // GET: Tasks/Delete/5
+        // GET: ATask/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,7 +111,7 @@ namespace ProjectBoard.Controllers
             return View(aTask);
         }
 
-        // POST: Tasks/Delete/5
+        // POST: ATask/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

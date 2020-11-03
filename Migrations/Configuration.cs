@@ -4,6 +4,7 @@ namespace ProjectBoard.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using ProjectBoard.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -21,6 +22,13 @@ namespace ProjectBoard.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
+            context.Projects.AddOrUpdate(x => x.Id, 
+                new Project { Name = "proj1", StartDate = DateTime.Now, Deadline = new DateTime(2020, 12, 01), Budget = 500.10, IsCompleted = false, Priority = Priority.medium },
+                new Project { Name = "proj2", StartDate = new DateTime(2019, 01, 01), Deadline = new DateTime(2020, 11, 30), Budget = 400000.10, IsCompleted = false, Priority = Priority.high },
+                new Project { Name = "proj3", StartDate = new DateTime(2020, 03, 01), Deadline = new DateTime(2021, 12, 01), Budget = 50000.10, IsCompleted = false, Priority = Priority.low }
+                );
+
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -28,7 +36,6 @@ namespace ProjectBoard.Migrations
                 var role = new IdentityRole { Name = "Admin" };
                 manager.Create(role);
             }
-
 
             if (!context.Users.Any(u => u.UserName == "admin@mysite.com"))
             {
@@ -53,7 +60,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(role);
             }
 
-
             if (!context.Users.Any(u => u.UserName == "developer@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -68,7 +74,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Developer");
             }
-
         }
     }
 }
