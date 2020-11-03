@@ -4,66 +4,71 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsCompleted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompletionPerc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Priority)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Deadline)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsCompleted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletionPerc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Priority)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<h2> View All Tasks </h2>
+<hr />
+<br />
+<button>
+    @Html.ActionLink("New Task", "Create")
+</button>
+<br />
+<br />
+@foreach (var item in Model)
+{
+    <h3>Project: @item.Project.Name</h3>
+    <h3>Task Title: @item.Name</h3>
+    <p>Start: @item.StartDate.ToShortDateString()  /  End: @item.Deadline.ToShortDateString()</p>
+    <br />
+    <div>
+        Developer(s) on this Task:
+        @foreach (var userName in item.ApplicationUsers)
+        {
+            <h3>@userName</h3>
+        }
+    </div>
+    <br />
+    <h4>
+        Project Completed? -- 
+        @if (item.IsCompleted)
+        {
+            <span>Yes</span>
+        }
+        else
+        {
+            <span>No</span>
+        }
+    </h4>
+    <h4>Process @item.CompletionPerc %</h4>
+    <h4>Priority: <span style="color:blue; font-weight:bold;">@item.Priority</span></h4>
+    if (item.IsCompleted @*&&
+        User.IsInRole("Developer") &&
+        item.ApplicationUsers.Select(u => u.UserName).Contains(User.Identity.Name)*@)
+    {
+        <button>
+            Add Note@*@Html.ActionLink("Add Note", "DeveloperNote", new { id = item.Id })*@
+        </button>
+        <br />
+        <h4>Developer's Notes:</h4>
+        @*foreach (var note in item.Notes)
+        {
+            <span style="color:grey; font-style:italic;">note.Body</span>
+            <span>note.ApplicationUser.Name</span>
+        }*@
+        <br />
+    }
+    <hr />
 }
-
-</table>
+<br />
+<br />
+@foreach (var item in Model)
+{
+    <button>
+        @Html.ActionLink("Edit Task", "Edit", new { id = item.Id })
+    </button>
+    <button>
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </button>
+}
+@*@if (User.IsInRole("ProjectManager"))
+    {
+        show delete
+    }*@

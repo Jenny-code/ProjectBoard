@@ -16,10 +16,11 @@ namespace ProjectBoard.Controllers
 
         // GET: ATask
         // when authorizing certain developers to view one's own task, do the following...
-        [Authorize(Users = "*", Roles = "")]
+        // [Authorize(Users = "*", Roles = "*")]
+        // might have to customize authorization: do some research
         public ActionResult Index()
         {
-            var tasks = db.Tasks.Include(a => a.Project/*.Name*/);
+            var tasks = db.Tasks.Include(a => a.Project);
             return View(tasks.ToList());
         }
 
