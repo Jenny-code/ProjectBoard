@@ -25,12 +25,12 @@ namespace ProjectBoard.Models
         public bool Opened { get; set; }
 
         public string ApplicationUserId { get; set; }
-        public int? AssignmentId { get; set; }
+        public int? ATaskId { get; set; }
         public int? ProjectId { get; set; }
 
         public Notificationtype Notificationtype { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual ATask Assignment { get; set; }
+        public virtual ATask Task { get; set; }
         public virtual Project Project { get; set; }
     }
 }
