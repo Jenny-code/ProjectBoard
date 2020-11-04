@@ -4,7 +4,14 @@
 }
 
 <h2>Roles</h2>
-@Html.ActionLink("CreateARole", "CreateRole", new { CustomerId = ViewBag.CustomerId })
+<li>
+    @Html.ActionLink("CreateARole", "CreateRole", new { CustomerId = ViewBag.CustomerId })
+</li>
+<li>
+    @Html.ActionLink("UserList", "UsersList", new { CustomerId = ViewBag.CustomerId })
+</li>
+
+
 
 
 <hr />
@@ -16,8 +23,20 @@
             <strong>Role:  </strong>
 
             <strong>@role.Name  </strong>
-            @Html.ActionLink("remove this role", "DeleteRoles", "Home", new { roleId = role.Id }, new { style = "color:red" })
-            @Html.ActionLink("add a user to this role", "AddUserToRole", "Home", new { roleId = role.Id }, new { style = "color:blue" })
+
+
+            <button>
+                @Html.ActionLink("remove  role", "DeleteRoles", "Home", new { roleId = role.Id }, new { style = "color:red" })
+            </button>
+            <button>
+                @Html.ActionLink("add a user to this role", "UserToRole", "Home", new { roleId = role.Id }, new { style = "color:blue" })
+            </button>
+            <button>
+                @Html.ActionLink("Detail", "ViewRoleUser", "Home", new { roleId = role.Id }, new { style = "color:blue" })
+            </button>
+
+
+
         </p>
         if (role.Users != null)
         {

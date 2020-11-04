@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-
 namespace ProjectBoard.Models
 {
     public enum Notificationtype
@@ -18,19 +17,16 @@ namespace ProjectBoard.Models
         {
             this.Opened = false;
         }
-
         [Key]
         public int Id { get; set; }
         public string Body { get; set; }
         public bool Opened { get; set; }
-
         public string ApplicationUserId { get; set; }
-        public int? AssignmentId { get; set; }
+        public int? ATaskId { get; set; }
         public int? ProjectId { get; set; }
-
         public Notificationtype Notificationtype { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual ATask Assignment { get; set; }
+        public virtual ATask Task { get; set; }
         public virtual Project Project { get; set; }
     }
 }
