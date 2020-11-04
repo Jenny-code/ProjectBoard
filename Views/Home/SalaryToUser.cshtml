@@ -1,0 +1,65 @@
+﻿@model ProjectBoard.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Salary to User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2><strong class="text-navy"> Add Salary </strong></h2>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="ibox-content">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Daily Salary </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+
+                            <td>@Html.DisplayFor(m => Model.UserName)</td>
+
+
+                            @using (Html.BeginForm("SalaryToUser", "Home", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <td>Salary:@Html.TextBoxFor(x => x.DailySalary)</td>
+                                <td><input type="submit" id="btnSubmit" value="submit" /></td>
+
+                                @Html.TextBoxFor(m => m.DailySalary, new { @class = "form-control" })
+                            }
+
+                            @Html.TextBoxFor(x => x.DailySalary, new { @style = "display:none;", Value = Model.Id })
+
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="title-action">
+                    <a class="btn btn-primary btn-sm" href="/Home/ShowAllRoles">return page</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
