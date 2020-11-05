@@ -8,20 +8,17 @@ namespace ProjectBoard.Models
 {
     public class ProjectTaskVM
     {
-        // project side info
-        public string ProjectName { get; set; }
-        public DateTime ProjectStart { get; set; }
-        public DateTime ProjectEnd { get; set; }
-        public Priority ProjectPriority { get; set; }
+        public Project Project { get; set; }
+        public List<ATask> Tasks { get; set; }
 
-        // task side info
-        public string TaskName { get; set; }
-        public DateTime TaskStart { get; set; }
-        public DateTime TaskEnd { get; set; }
-        public string Description { get; set; }
-        public bool IsCompleted { get; set; }
-        [Range(0, 100)]
-        public int CompletionPerc { get; set; }
-        public Priority TaskPriority { get; set; }
+        public ProjectTaskVM(int projId)
+        {
+            var db = new ApplicationDbContext();
+
+            Project = db.Projects.First(x => x.Id == projId);
+            var query = from x in db.Tasks where x.ProjectId == projId select x;
+
+            Tasks = query.ToList();
+        }
     }
 }
