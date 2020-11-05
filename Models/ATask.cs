@@ -36,7 +36,7 @@ namespace ProjectBoard.Models
         public Priority Priority { get; set; }
         public virtual Project Project { get; set; }
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        public virtual ICollection<Note> Notes { get; set; }
+        // public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
