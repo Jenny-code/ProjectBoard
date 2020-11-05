@@ -15,9 +15,12 @@ namespace ProjectBoard.Models
         {
             Tasks = new HashSet<ATask>();
             Projects= new HashSet<Project>();
+            Notifications = new HashSet<Notification>();
         }
         public virtual ICollection<ATask> Tasks { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
+
         public double DailySalary { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -32,8 +35,7 @@ namespace ProjectBoard.Models
     {
         public DbSet<ATask> Tasks { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<Note> Notes { get; set; }
-        // public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -44,5 +46,9 @@ namespace ProjectBoard.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<ProjectBoard.Models.Notification> Notifications { get; set; }
+
+        //public System.Data.Entity.DbSet<ProjectBoard.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

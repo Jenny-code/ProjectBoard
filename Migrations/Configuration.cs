@@ -8,30 +8,33 @@ namespace ProjectBoard.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-
     internal sealed class Configuration : DbMigrationsConfiguration<ProjectBoard.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
-
         protected override void Seed(ProjectBoard.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+            //if (!context.Notifications.Any())
+            //{
+            //    context.Notifications.AddOrUpdate(x => x.Id,
+            //        new Notification { Body = "This is an urgent notification", Notificationtype = Notificationtype.Urgent }
+            //        );
+            //}
 
             if (!context.Projects.Any())
             {
+
                 context.Projects.AddOrUpdate(x => x.Id,
                 new Project { Name = "proj1", StartDate = new DateTime(2020, 02, 01), Deadline = new DateTime(2020, 12, 01), Budget = 500.10, IsCompleted = false, Priority = Priority.medium },
                 new Project { Name = "proj2", StartDate = new DateTime(2019, 01, 01), Deadline = new DateTime(2020, 11, 30), Budget = 400000.10, IsCompleted = false, Priority = Priority.high },
                 new Project { Name = "proj3", StartDate = new DateTime(2020, 03, 01), Deadline = new DateTime(2021, 12, 01), Budget = 50000.10, IsCompleted = false, Priority = Priority.low }
                 );
             }
-
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -39,7 +42,6 @@ namespace ProjectBoard.Migrations
                 var role = new IdentityRole { Name = "Admin" };
                 manager.Create(role);
             }
-
             if (!context.Roles.Any(r => r.Name == "Manager"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -47,7 +49,6 @@ namespace ProjectBoard.Migrations
                 var role = new IdentityRole { Name = "Manager" };
                 manager.Create(role);
             }
-
             if (!context.Users.Any(u => u.UserName == "admin@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -62,7 +63,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Admin");
             }
-
             if (!context.Users.Any(u => u.UserName == "manager@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -77,7 +77,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Manager");
             }
-
             if (!context.Users.Any(u => u.UserName == "manager1@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -92,7 +91,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Manager");
             }
-
             if (!context.Roles.Any(r => r.Name == "Developer"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -100,7 +98,6 @@ namespace ProjectBoard.Migrations
                 var role = new IdentityRole { Name = "Developer" };
                 manager.Create(role);
             }
-
             if (!context.Users.Any(u => u.UserName == "developer@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -115,7 +112,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Developer");
             }
-
             if (!context.Users.Any(u => u.UserName == "developer1@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -130,7 +126,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Developer");
             }
-
             if (!context.Users.Any(u => u.UserName == "developer2@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -145,7 +140,6 @@ namespace ProjectBoard.Migrations
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Developer");
             }
-
             if (!context.Users.Any(u => u.UserName == "developer3@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
