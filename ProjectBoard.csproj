@@ -716,7 +716,6 @@
     <Content Include="Views\ATask\Delete.cshtml" />
     <Content Include="Views\ATask\Edit.cshtml" />
     <Content Include="Views\ATask\Index.cshtml" />
-    <Content Include="Views\Home\AddUserToRole.cshtml" />
     <Content Include="Views\Home\DeleteRoles.cshtml" />
     <Content Include="Views\Home\ShowAllRoles.cshtml" />
     <Content Include="Views\Home\ShowAllUsers.cshtml" />
@@ -737,6 +736,11 @@
     <Content Include="Views\Notifications\Details.cshtml" />
     <Content Include="Views\Notifications\Edit.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Home\ViewRoleUser.cshtml" />
+    <Content Include="Views\Home\UserToRole.cshtml" />
+    <Content Include="Views\Home\SalaryToUser.cshtml" />
+    <Content Include="Views\Home\UsersList.cshtml" />
+    <Content Include="Views\Home\RemoveUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
