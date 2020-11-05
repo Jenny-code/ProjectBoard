@@ -29,9 +29,7 @@ namespace ProjectBoard.Models
 
         public virtual ICollection<ATask> Tasks { get; set; }
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        //public virtual ICollection<Notification> Notifications { get; set; }
-
-
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 
 }

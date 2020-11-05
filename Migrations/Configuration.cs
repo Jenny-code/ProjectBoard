@@ -40,6 +40,14 @@ namespace ProjectBoard.Migrations
                 manager.Create(role);
             }
 
+            if (!context.Roles.Any(r => r.Name == "Manager"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Manager" };
+                manager.Create(role);
+            }
+
             if (!context.Users.Any(u => u.UserName == "admin@mysite.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
@@ -53,6 +61,36 @@ namespace ProjectBoard.Migrations
                 };
                 manager.Create(user);
                 manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "manager@mysite.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var PasswordHash = new PasswordHasher();
+                var user = new ApplicationUser
+                {
+                    UserName = "manager@mysite.com",
+                    Email = "manager@mysite.com",
+                    PasswordHash = PasswordHash.HashPassword("Abc123!")
+                };
+                manager.Create(user);
+                manager.AddToRole(user.Id, "Manager");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "manager1@mysite.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var PasswordHash = new PasswordHasher();
+                var user = new ApplicationUser
+                {
+                    UserName = "manager1@mysite.com",
+                    Email = "manager1@mysite.com",
+                    PasswordHash = PasswordHash.HashPassword("Abc123!")
+                };
+                manager.Create(user);
+                manager.AddToRole(user.Id, "Manager");
             }
 
             if (!context.Roles.Any(r => r.Name == "Developer"))
@@ -72,6 +110,51 @@ namespace ProjectBoard.Migrations
                 {
                     UserName = "developer@mysite.com",
                     Email = "developer@mysite.com",
+                    PasswordHash = PasswordHash.HashPassword("Abc123!")
+                };
+                manager.Create(user);
+                manager.AddToRole(user.Id, "Developer");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "developer1@mysite.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var PasswordHash = new PasswordHasher();
+                var user = new ApplicationUser
+                {
+                    UserName = "developer1@mysite.com",
+                    Email = "developer1@mysite.com",
+                    PasswordHash = PasswordHash.HashPassword("Abc123!")
+                };
+                manager.Create(user);
+                manager.AddToRole(user.Id, "Developer");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "developer2@mysite.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var PasswordHash = new PasswordHasher();
+                var user = new ApplicationUser
+                {
+                    UserName = "developer2@mysite.com",
+                    Email = "developer2@mysite.com",
+                    PasswordHash = PasswordHash.HashPassword("Abc123!")
+                };
+                manager.Create(user);
+                manager.AddToRole(user.Id, "Developer");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "developer3@mysite.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var PasswordHash = new PasswordHasher();
+                var user = new ApplicationUser
+                {
+                    UserName = "developer3@mysite.com",
+                    Email = "developer3@mysite.com",
                     PasswordHash = PasswordHash.HashPassword("Abc123!")
                 };
                 manager.Create(user);
