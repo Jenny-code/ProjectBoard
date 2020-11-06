@@ -10,26 +10,31 @@ using System.Web.Security;
 using ProjectBoard.Models;
 using System.Data.SqlClient;
 using System.Net;
-
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using Microsoft.Ajax.Utilities;
 namespace ProjectBoard.Controllers
 {
-
     //comment
     public class HomeController : Controller
     {
-
         static ApplicationDbContext db = new ApplicationDbContext();
-
         UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-
         RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-
+        public ActionResult Welcomepage()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = userManager.FindById(currentUserId);
+            //ViewBag.currenUserRoles = userManager.FindById(currentUserId)
+            // 我发现User有效，即User.Identity.Name或User.IsInRole("Administrator")。
+            return View(currentUser);
+        }
+        #region Role part
         [Authorize(Roles = "Admin")]
         public ActionResult CreateRole()
         {
             return View();
         }
-
         // POST: /Roles/Create
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -50,8 +55,6 @@ namespace ProjectBoard.Controllers
                 return View();
             }
         }
-
-
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteRoles(string roleId)
         {
@@ -60,15 +63,14 @@ namespace ProjectBoard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             var roleDelete = db.Roles.Find(roleId);
+            db.Roles.Remove(roleDelete);
             if (roleDelete == null)
             {
                 return HttpNotFound();
             }
             return View(roleDelete);
         }
-
         [HttpPost, ActionName("DeleteRoles")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -80,144 +82,127 @@ namespace ProjectBoard.Controllers
             db.SaveChanges();
             return RedirectToAction("ShowAllRoles");
         }
-
-
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult ShowAllRoles()
         {
             //var roles = db.Roles.Select(r => r.Name).ToList();
             ViewBag.users = db.Users.ToList();
             return View(db.Roles);
         }
-        [Authorize(Roles = "Admin")]
-        public ActionResult ShowAllUsers()
+        #endregion
+        #region User Part
+        [Authorize(Roles = "Admin,Manager")]
+        public ActionResult UsersList()
         {
-            var users = db.Users.Select(u => u.UserName);
-            ViewBag.users = users;
-            return View(users);
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = userManager.Users.Where(u => u.Id == currentUserId);
+            var usersList = userManager.Users.Except(currentUser);
+            db.SaveChanges();
+            return View(usersList);
         }
-
-
-        [Authorize(Roles = "Admin")]    
-        public ActionResult AddUserSalary()
+        [Authorize(Roles = "Admin,Manager")]
+        public ActionResult SalaryToUser(string userId)
         {
-            return View();
+            var user = userManager.Users.Where(u => u.Id == userId).ToList()[0];
+            return View(user);
         }
-
-
-
-
-
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult AddUserToRole(string roleId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
+        public ActionResult SalaryToUser([Bind(Include = "Id,DailySalary")] ApplicationUser user)
         {
-            if (roleId == null)
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                userManager.FindById(user.Id).DailySalary = user.DailySalary;
+                db.SaveChanges();
+                return RedirectToAction("UsersList");
             }
-
-            var targetrole = db.Roles.Find(roleId);
-            if (targetrole == null)
+            return View(user);
+        }
+        #endregion
+        #region UserRole
+        [HttpGet]
+        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
+        public ActionResult UserToRole(string roleId)
+        {
+            if (string.IsNullOrWhiteSpace(roleId))
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var role = roleManager.FindById(roleId);
+            ViewBag.RoleName = role.Name;
+            ViewBag.RoleId = roleId;
+            if (role == null)
             {
                 return HttpNotFound();
             }
-            //var users = Roles.GetUsersInRole("Admin");
-            //SelectList list = new SelectList(users);
-            //ViewBag.Users = list;
-            var torole = db.Roles.Find(roleId);
-            var users = db.Users.Select(u => u.Id);
-            SelectList list = new SelectList(users);
-            ViewBag.users = users;
-            return View(targetrole);
+            var memberIDs = role.Users.Select(x => x.UserId).ToArray();
+            var members = userManager.Users.Where(x => memberIDs.Any(y => y == x.Id));
+            var membersNo = userManager.Users.Except(members);
+            return View(membersNo);
         }
-
-        //[HttpPost, ActionName("DeleteRoles")]
-        //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddToRole(string userId, string roleName, string roleId)
+        {
+            if (!string.IsNullOrWhiteSpace(userId) && !string.IsNullOrWhiteSpace(roleName))
+            {
+                userManager.AddToRole(userId, roleName);
+                db.SaveChanges();
+            }
+            return RedirectToAction("ViewRoleUser", "Home", new { roleId = roleId });
+        }
+        [Authorize(Roles = "Admin,Manager,Developer")]
+        public ActionResult ViewRoleUser(string roleId)
+        {
+            if (string.IsNullOrWhiteSpace(roleId))
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var role = roleManager.FindById(roleId);
+            ViewBag.RoleName = role.Name;
+            var memberIDs = role.Users.Select(x => x.UserId).ToArray();
+            var members = userManager.Users.Where(x => memberIDs.Any(y => y == x.Id));
+            return View(members);
+        }
+        [Authorize(Roles = "Admin")]
+        public ActionResult RemoveRoleUser(string roleName, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(roleName) && string.IsNullOrWhiteSpace(userId))
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var result = userManager.RemoveFromRole(userId, roleName);
+            var role = roleManager.FindByName(roleName);
+            if (!result.Succeeded)
+            {
+                return View("Error");
+            }
+            return RedirectToAction("ViewRoleUser", new { roleId = role.Id });
+        }
+        #endregion
+        ////Remove User
         //[Authorize(Roles = "Admin")]
-        //public ActionResult AddUserToRoleConfirmed(string userId, string roleName)
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> RemoveUser(string id)
         //{
-        //    userManager.AddToRole(userId, roleName);
-        //    db.SaveChanges();
-
-        //    return RedirectToAction("ShowAllRoles");
+        //    ApplicationUser user = userManager.FindById(id);
+        //    await userManager.DeleteAsync(user);
+        //    return RedirectToAction("UsersList", "Home");
         //}
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult AddUserToRoleSecond()
-        {
-
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost, ActionName("AddUserToRole")]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddUserToRoleSecond(string userId, string roleName)
-        {
-            var users = db.Users.Select(u => u.Id);
-            SelectList list = new SelectList(users);
-            ViewBag.users = users;
-            //var userss = db.Users.Where(u=>u.na);
-
-
-
-            //var users = Roles.GetUsersInRole("RoleName").Select(System.Web.Security.Membership.GetUser).ToList();
-            //var list = users.Select(x => new SelectListItem { Text = x.UserName, Value = System.Web.Security.Membership.GetUser(x.UserName).ProviderUserKey.ToString() }).ToList();
-            //ViewBag.Users = list;
-
-
-
-            userManager.AddToRole(userId, roleName);
-            db.SaveChanges();
-            return View();
-        }
-
-
-
-
-
-
-        //public ActionResult CreateUser()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public ActionResult CreateUser(string userName = "AAA", string password = "1234")
-        //{
-        //    var um = new UserManager<ApplicationUser>(
-        //        new UserStore<ApplicationUser>(new ApplicationDbContext()));
-        //    ApplicationUser user = new ApplicationUser();
-        //    user.PasswordHash = um.PasswordHasher.HashPassword(password);
-        //    user.UserName = userName;
-        //    user.AccessFailedCount = 0;
-        //    //db.ApplicationUsers.Add(user);
-        //    //db.Users.Add(user);
-        //    //var idResult = um.Create(user);
-        //    db.SaveChanges();
-        //    return View();
-        //}
-
-
-
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
 }
-
