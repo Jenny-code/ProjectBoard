@@ -21,7 +21,9 @@ namespace ProjectBoard.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
         public double Budget { get; set; }
         public bool IsCompleted { get; set; }

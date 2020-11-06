@@ -3,38 +3,65 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Roles</h2>
-@Html.ActionLink("CreateARole", "CreateRole", new { CustomerId = ViewBag.CustomerId })
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2><strong class="text-navy"> RolesList </strong></h2>
+    </div>
+</div>
 
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-content">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th> </th>
+                            <th> </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(m => role.Name)</td>
 
-<hr />
-<div>
-    @foreach (var role in Model)
-    {
+                                @using (Html.BeginForm())
+                                {
 
-        <p>
-            <strong>Role:  </strong>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm">
 
-            <strong>@role.Name  </strong>
-            @Html.ActionLink("remove this role", "DeleteRoles", "Home", new { roleId = role.Id }, new { style = "color:red" })
-            @Html.ActionLink("add a user to this role", "AddUserToRole", "Home", new { roleId = role.Id }, new { style = "color:blue" })
-        </p>
-        if (role.Users != null)
-        {
-            <span>Users:  </span>
+                                            @Html.AntiForgeryToken()
+                                            @Html.ActionLink("remove", "DeleteRoles", "Home", new { roleId = role.Id }, new { style = "color:white;text-decoration:none" })
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">
+                                            @Html.ActionLink("add user", "UserToRole", "Home", new { roleId = role.Id }, new { style = "color:white;text-decoration:none" })
+                                        </button>
 
-            foreach (var u in role.Users)
-            {
-                @*<p> @u.UserId</p>*@
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">
+                                            @Html.ActionLink("Detail", "ViewRoleUser", "Home", new { roleId = role.Id }, new { style = "color:white;text-decoration:none" })
+                                        </button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-8">
+                <div class="title-action">
+                    <a class="btn btn-primary btn-sm" href="/Home/UsersList">Users List</a>
+                    <a class="btn btn-primary btn-sm" href="/Home/CreateRole">Create Role</a>
 
-                foreach (var user in @ViewBag.users)
-                {
-                    if (user.Id == @u.UserId)
-                    {
-                        <span>@user.UserName</span>
-                    }
-                }
-            }
-        }
-    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

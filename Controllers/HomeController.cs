@@ -21,20 +21,21 @@ namespace ProjectBoard.Controllers
         static ApplicationDbContext db = new ApplicationDbContext();
         UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
         public ActionResult Welcomepage()
         {
             var currentUserId = User.Identity.GetUserId();
             var currentUser = userManager.FindById(currentUserId);
-            //ViewBag.currenUserRoles = userManager.FindById(currentUserId)
-            // 我发现User有效，即User.Identity.Name或User.IsInRole("Administrator")。
             return View(currentUser);
         }
+
         #region Role part
         [Authorize(Roles = "Admin")]
         public ActionResult CreateRole()
         {
             return View();
         }
+
         // POST: /Roles/Create
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -55,6 +56,7 @@ namespace ProjectBoard.Controllers
                 return View();
             }
         }
+
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteRoles(string roleId)
         {
@@ -71,6 +73,7 @@ namespace ProjectBoard.Controllers
             }
             return View(roleDelete);
         }
+
         [HttpPost, ActionName("DeleteRoles")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -82,14 +85,15 @@ namespace ProjectBoard.Controllers
             db.SaveChanges();
             return RedirectToAction("ShowAllRoles");
         }
+
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult ShowAllRoles()
         {
-            //var roles = db.Roles.Select(r => r.Name).ToList();
             ViewBag.users = db.Users.ToList();
             return View(db.Roles);
         }
         #endregion
+
         #region User Part
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult UsersList()
@@ -100,12 +104,14 @@ namespace ProjectBoard.Controllers
             db.SaveChanges();
             return View(usersList);
         }
-        [Authorize(Roles = "Admin,Manager")]
+
+        [Authorize(Roles = "Admin")]
         public ActionResult SalaryToUser(string userId)
         {
             var user = userManager.Users.Where(u => u.Id == userId).ToList()[0];
             return View(user);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Manager")]
@@ -120,6 +126,7 @@ namespace ProjectBoard.Controllers
             return View(user);
         }
         #endregion
+
         #region UserRole
         [HttpGet]
         [AllowAnonymous]
@@ -142,6 +149,7 @@ namespace ProjectBoard.Controllers
             var membersNo = userManager.Users.Except(members);
             return View(membersNo);
         }
+
         [Authorize(Roles = "Admin")]
         public ActionResult AddToRole(string userId, string roleName, string roleId)
         {
@@ -152,6 +160,7 @@ namespace ProjectBoard.Controllers
             }
             return RedirectToAction("ViewRoleUser", "Home", new { roleId = roleId });
         }
+
         [Authorize(Roles = "Admin,Manager,Developer")]
         public ActionResult ViewRoleUser(string roleId)
         {
@@ -165,6 +174,7 @@ namespace ProjectBoard.Controllers
             var members = userManager.Users.Where(x => memberIDs.Any(y => y == x.Id));
             return View(members);
         }
+
         [Authorize(Roles = "Admin")]
         public ActionResult RemoveRoleUser(string roleName, string userId)
         {
@@ -181,27 +191,9 @@ namespace ProjectBoard.Controllers
             return RedirectToAction("ViewRoleUser", new { roleId = role.Id });
         }
         #endregion
-        ////Remove User
-        //[Authorize(Roles = "Admin")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> RemoveUser(string id)
-        //{
-        //    ApplicationUser user = userManager.FindById(id);
-        //    await userManager.DeleteAsync(user);
-        //    return RedirectToAction("UsersList", "Home");
-        //}
+
         public ActionResult Index()
         {
-            return View();
-        }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            return View();
-        }
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
             return View();
         }
     }

@@ -30,7 +30,9 @@ namespace ProjectBoard.Models
         public string Name { get; set; }
         public int ProjectId { get; set; }
         public string Body { get; set; }
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
         public bool IsCompleted { get; set; }
         [Range(0, 100)]
@@ -41,12 +43,12 @@ namespace ProjectBoard.Models
         public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
 
-        //public void CompleteTurnsPerc100()
-        //{
-        //    if (this.IsCompleted)
-        //    {
-        //        this.CompletionPerc = 100;
-        //    }
-        //}
+        public void CompleteTurnsPerc100()
+        {
+            if (this.IsCompleted)
+            {
+                this.CompletionPerc = 100;
+            }
+        }
     }
 }

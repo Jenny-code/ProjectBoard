@@ -9,34 +9,13 @@
 
 <div>
     <h4>
-        @*@if()
-            @foreach (var user in @ViewBag.users)
-            {
-                if (user.Id == @Model.Id)
-                {
-                    var x = @user.UserName;
-                    <span>@x</span>
-                    <span>@user.UserName</span>
-                }
-            }*@
     </h4>
+
     <hr />
-    <dl class="dl-horizontal">
-        @*<dt>
-                @Html.DisplayNameFor(model => model.Id)
-            </dt>*@
-        @*<dd>
-                @Html.DisplayFor(model => model.Id)
-            </dd>*@
-
-
-
-    </dl>
+    <dl class="dl-horizontal"></dl>
 
     @using (Html.BeginForm())
     {
-
-
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -45,4 +24,3 @@
         </div>
     }
 </div>
-

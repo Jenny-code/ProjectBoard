@@ -91,7 +91,7 @@ namespace ProjectBoard.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(aTask).State = EntityState.Modified;
-                // aTask.CompleteTurnsPerc100();
+                aTask.CompleteTurnsPerc100();
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

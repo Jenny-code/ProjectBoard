@@ -246,6 +246,22 @@
     <Compile Include="Migrations\202011051523157_AddNoteClass.designer.cs">
       <DependentUpon>202011051523157_AddNoteClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011061841173_AddUsersAndRolesFeaturesByAshley.cs" />
+    <Compile Include="Migrations\202011061841173_AddUsersAndRolesFeaturesByAshley.designer.cs">
+      <DependentUpon>202011061841173_AddUsersAndRolesFeaturesByAshley.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061902325_latestNov6.cs" />
+    <Compile Include="Migrations\202011061902325_latestNov6.designer.cs">
+      <DependentUpon>202011061902325_latestNov6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061917566_AddPriorityEnum.cs" />
+    <Compile Include="Migrations\202011061917566_AddPriorityEnum.designer.cs">
+      <DependentUpon>202011061917566_AddPriorityEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061926439_AddDeadlinePropertyToProjectAndTask.cs" />
+    <Compile Include="Migrations\202011061926439_AddDeadlinePropertyToProjectAndTask.designer.cs">
+      <DependentUpon>202011061926439_AddDeadlinePropertyToProjectAndTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ATask.cs" />
@@ -687,8 +703,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -723,7 +737,6 @@
     <Content Include="Views\Home\AddUserToRole.cshtml" />
     <Content Include="Views\Home\DeleteRoles.cshtml" />
     <Content Include="Views\Home\ShowAllRoles.cshtml" />
-    <Content Include="Views\Home\ShowAllUsers.cshtml" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.5.1.min.map" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -742,6 +755,12 @@
     <Content Include="Views\Notifications\Edit.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\Projects\ViewTasksOfAProject.cshtml" />
+    <Content Include="Views\Home\SalaryToUser.cshtml" />
+    <Content Include="Views\Home\RemoveUser.cshtml" />
+    <Content Include="Views\Home\UsersList.cshtml" />
+    <Content Include="Views\Home\UserToRole.cshtml" />
+    <Content Include="Views\Home\ViewRoleUser.cshtml" />
+    <Content Include="Views\Home\Welcomepage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -771,6 +790,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011051523157_AddNoteClass.resx">
       <DependentUpon>202011051523157_AddNoteClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061841173_AddUsersAndRolesFeaturesByAshley.resx">
+      <DependentUpon>202011061841173_AddUsersAndRolesFeaturesByAshley.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061902325_latestNov6.resx">
+      <DependentUpon>202011061902325_latestNov6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061917566_AddPriorityEnum.resx">
+      <DependentUpon>202011061917566_AddPriorityEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061926439_AddDeadlinePropertyToProjectAndTask.resx">
+      <DependentUpon>202011061926439_AddDeadlinePropertyToProjectAndTask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="obj\Debug\ProjectBoard.Migrations.CreatedTaskAndProjectModel.resources" />
     <EmbeddedResource Include="obj\Debug\ProjectBoard.Migrations.ImproveATask.resources" />
