@@ -18,10 +18,12 @@ namespace ProjectBoard.Models
         public ATask()
         {
             IsCompleted = false;
-            //Notifications = new HashSet<Notification>();
+            Notifications = new HashSet<Notification>();
+            Notes = new HashSet<Note>();
             ApplicationUsers = new HashSet<ApplicationUser>();
             CompletionPerc = 0;
         }
+
         [Key]
         public int Id { get; set; }
         [Required]
@@ -36,7 +38,15 @@ namespace ProjectBoard.Models
         public Priority Priority { get; set; }
         public virtual Project Project { get; set; }
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        // public virtual ICollection<Note> Notes { get; set; }
+        public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
+
+        //public void CompleteTurnsPerc100()
+        //{
+        //    if (this.IsCompleted)
+        //    {
+        //        this.CompletionPerc = 100;
+        //    }
+        //}
     }
 }

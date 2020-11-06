@@ -28,13 +28,25 @@ namespace ProjectBoard.Migrations
 
             if (!context.Projects.Any())
             {
-
                 context.Projects.AddOrUpdate(x => x.Id,
                 new Project { Name = "proj1", StartDate = new DateTime(2020, 02, 01), Deadline = new DateTime(2020, 12, 01), Budget = 500.10, IsCompleted = false, Priority = Priority.medium },
                 new Project { Name = "proj2", StartDate = new DateTime(2019, 01, 01), Deadline = new DateTime(2020, 11, 30), Budget = 400000.10, IsCompleted = false, Priority = Priority.high },
                 new Project { Name = "proj3", StartDate = new DateTime(2020, 03, 01), Deadline = new DateTime(2021, 12, 01), Budget = 50000.10, IsCompleted = false, Priority = Priority.low }
+                /*new Project { Name = "overdue tasks", StartDate = new DateTime(2020, 08, 01), Deadline = new DateTime(2020, 12, 01), Budget = 6000, IsCompleted = false, Priority = Priority.high },
+                new Project { Name = "overdue project", StartDate = new DateTime(2020, 07, 30), Deadline = new DateTime(2020, 09, 01), Budget = 7000.55, IsCompleted = false, Priority = Priority.high }*/
                 );
             }
+
+            //if (!context.Tasks.Any())
+            //{
+            //    context.Tasks.AddOrUpdate(
+            //    new ATask { Id = 1, Name = "task1-1", Body = "project 1's task 1. not overdue. completed.", StartDate = new DateTime(2020, 02, 15), Deadline = new DateTime(2020, 02, 20), IsCompleted = true, CompletionPerc = 80, Priority = Priority.medium },
+            //    new ATask { Id = 2, Name = "task2-1", Body = "Project 1's task 2. Not overdue. Not completed.", StartDate = new DateTime(2020, 11, 01), Deadline = new DateTime(2020, 11, 30), IsCompleted = false, CompletionPerc = 40, Priority = Priority.high },
+            //    new ATask { Id = 3, Name = "task1-2", Body = "Project 2's task 1. Not overdue. Not completed.", StartDate = new DateTime(2020, 11, 01), Deadline = new DateTime(2020, 11, 30), IsCompleted = false, CompletionPerc = 40, Priority = Priority.high }
+            //    );
+
+            //}
+
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);

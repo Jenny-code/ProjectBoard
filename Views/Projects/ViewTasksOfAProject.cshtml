@@ -1,0 +1,66 @@
+﻿@model ProjectBoard.Models.Project
+
+@{
+    ViewBag.Title = "ViewTasksOfAProject";
+}
+
+<h2>View All "@Model.Name" Tasks</h2>
+<hr />
+<br />
+<div>
+    @foreach (var item in Model.Tasks)
+    {
+        <h3>Task Title: @item.Name</h3>
+        <p>Start: @item.StartDate.ToShortDateString()  /  End: @item.Deadline.ToShortDateString()</p>
+        <div>
+            Developer(s) on this Task:
+            @foreach (var userName in item.ApplicationUsers)
+            {
+                <h3>@userName</h3>
+            }
+        </div>
+        <br />
+        <h4>
+            Task Completed? -- 
+            @if (item.IsCompleted || item.CompletionPerc == 100)
+            {
+                <span>Yes. Please find Developer's Note below if available.</span>
+            }
+            else
+            {
+                <span>Not yet</span>
+            }
+        </h4>
+        <h4>
+            Process: 
+            @if (item.IsCompleted)
+            {
+                <span>[ 100 ] %</span>
+            }
+            else
+            {
+                <span>[ @item.CompletionPerc ] %</span>
+            }
+        </h4>
+        <h4>Priority: <span style="font-weight:bold;">@item.Priority</span></h4>
+        <h4>
+            Description: <span style="color:blue;">@item.Body</span>
+        </h4>
+        if (item.IsCompleted @*&&
+            User.IsInRole("Developer") &&
+            item.ApplicationUsers.Select(u => u.UserName).Contains(User.Identity.Name)*@)
+        {
+            <button>
+                Add Note@*@Html.ActionLink("Add Note", "DeveloperNote", new { id = item.Id })*@
+            </button>
+            <br />
+            <h4>Developer's Notes:</h4>
+            @*foreach (var comment in item.comments)
+            {
+                <span style="color:grey; font-style:italic;">comment.Body</span>
+                <span>comment.ApplicationUser.Name</span>
+            }*@
+        <br />
+        }
+    }
+</div>

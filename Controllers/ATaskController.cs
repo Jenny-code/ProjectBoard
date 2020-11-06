@@ -10,6 +10,7 @@ using ProjectBoard.Models;
 
 namespace ProjectBoard.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ATaskController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -90,6 +91,7 @@ namespace ProjectBoard.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(aTask).State = EntityState.Modified;
+                // aTask.CompleteTurnsPerc100();
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

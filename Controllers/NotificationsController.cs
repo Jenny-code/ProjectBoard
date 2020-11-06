@@ -16,14 +16,12 @@ namespace ProjectBoard.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Notifications
-        public ActionResult Index(string userId)
+        public ActionResult Index(/*string userId*/)
         {
-
             var notifications = db.Notifications.Include(n => n.ApplicationUser).Include(n => n.Project).Include(n => n.Task);
+            // var notificationsForThisUser = notifications.Where(t => t.ApplicationUserId == userId);
 
-            var notificationsForThisUser = notifications.Where(t => t.ApplicationUserId == userId);
-
-                return View(notificationsForThisUser.ToList());
+            return View(notifications.ToList());
         }
 
         // GET: Notifications/Details/5
@@ -44,7 +42,7 @@ namespace ProjectBoard.Controllers
         // GET: Notifications/Create
         public ActionResult Create()
         {
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
+            //ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             ViewBag.ATaskId = new SelectList(db.Tasks, "Id", "Name");
             return View();
@@ -55,16 +53,19 @@ namespace ProjectBoard.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Body,Opened,ApplicationUserId,ATaskId,ProjectId,Notificationtype")] Notification notification)
+        public ActionResult Create([Bind(Include = "Id,Body,Opened,ATaskId,ProjectId,Notificationtype")] Notification notification)
         {
             if (ModelState.IsValid)
             {
+                // bind ApplicationUserId omitted from bind include
+                var userId = User.Identity.GetUserId();
+                notification.ApplicationUserId = userId;
                 db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", notification.ApplicationUserId);
+            //ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", notification.ApplicationUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", notification.ProjectId);
             ViewBag.ATaskId = new SelectList(db.Tasks, "Id", "Name", notification.ATaskId);
             return View(notification);
